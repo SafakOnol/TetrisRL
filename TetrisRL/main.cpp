@@ -1,6 +1,7 @@
 #include <raylib.h>
 #include <iostream>
 #include "Grid.h"
+#include "Tetrimino.cpp"
 
 int main()
 {
@@ -13,14 +14,10 @@ int main()
 	
 
 	Grid grid = Grid();
-	grid.grid[0][0] = 1;
-	grid.grid[4][5] = 2;
-	grid.grid[8][12] = 3;
 	grid.Print();
 	// ########################################## //
 
-
-
+	
 
 	// GAME LOOP
 	// ########################################## //
@@ -30,7 +27,6 @@ int main()
 		ClearBackground(darkBlue);
 
 		grid.Render();
-
 		EndDrawing();
 	}
 
