@@ -12,8 +12,14 @@ public:
 	std::vector<Block> GetAllBlocks();
 
 	void Render();
+	void HandleEvents();
+
+	void MoveBlockLeft();
+	void MoveBlockRight();
+	void MoveBlockDown();
 
 private:
+	bool IsBlockOutOfBounds();
 	std::vector <Block> blocks;
 	Block currentBlock;
 	Block nextBlock;

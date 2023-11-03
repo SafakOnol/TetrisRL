@@ -15,7 +15,12 @@ int main()
 	{
 		BeginDrawing();
 		ClearBackground(darkBlue);
+		// ##### //
+
+		game.HandleEvents();
 		game.Render();
+
+		// ##### //
 		EndDrawing();
 	}
 
