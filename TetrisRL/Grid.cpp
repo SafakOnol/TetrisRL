@@ -41,7 +41,10 @@ void Grid::Render()
 		for (int column = 0; column < numColumns; column++)
 		{
 			int cellValue = grid[row][column];
-			DrawRectangle(column * cellSize + 1, row * cellSize + 1, cellSize - 1, cellSize - 1, colors[cellValue]);
+			DrawRectangle(column * cellSize + 11, row * cellSize + 111, cellSize - 1, cellSize - 1, colors[cellValue]);
+			//colors[cellValue].a = 100;			
+			//DrawRectangle(column * cellSize + 12, row * cellSize + 112, cellSize - 2, cellSize - 2, colors[cellValue]);
+			//colors[cellValue].a = 255;
 		}
 		std::cout << std::endl;
 	}

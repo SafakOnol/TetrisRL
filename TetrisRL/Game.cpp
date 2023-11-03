@@ -9,7 +9,27 @@ Game::Game()
 	currentBlock = GetRandomBlock();
 	nextBlock = GetRandomBlock();
 	gameOver = false;
+	score = 0;
+
+	// Audio
+	InitAudioDevice();
+	music = LoadMusicStream("Audio/Life is full of Joy.wav");
+	PlayMusicStream(music);
+	rotateSound = LoadSound("Audio/rotate.ogg");
+	clearSound = LoadSound("Audio/clearRaw.ogg");
+	moveDownSound = LoadSound("Audio/moveDown.ogg");
 }
+
+Game::~Game()
+{
+	UnloadMusicStream(music);
+	UnloadSound(rotateSound);
+	UnloadSound(clearSound);
+	UnloadSound(moveDownSound);
+	CloseAudioDevice();
+}
+
+
 
 Block Game::GetRandomBlock()
 {
@@ -32,7 +52,21 @@ std::vector<Block> Game::GetAllBlocks()
 void Game::Render()
 {
 	grid.Render();
-	currentBlock.Render();
+	currentBlock.Render(11, 111);
+	
+
+	switch (nextBlock.id)
+	{
+	case 3:
+		nextBlock.Render(255, 420);
+		break;
+	case 4:
+		nextBlock.Render(255, 420);
+		break;
+	default:
+		nextBlock.Render(270, 420);
+		break;
+	}
 }
 
 void Game::HandleEvents()
@@ -53,6 +87,8 @@ void Game::HandleEvents()
 		break;
 	case KEY_DOWN:
 		MoveBlockDown();
+		UpdateScore(0, 1);
+		PlaySound(moveDownSound);
 		break;
 	case KEY_UP:
 		RotateBlock();
@@ -101,6 +137,7 @@ void Game::MoveBlockDown()
 		currentBlock.Move(-1, 0);
 		LockBlock();
 	}
+
 }
 
 bool Game::IsBlockOutOfBounds()
@@ -129,6 +166,10 @@ void Game::RotateBlock()
 	{
 		currentBlock.UndoRotation();
 	}
+	else
+	{
+		PlaySound(rotateSound);
+	}
 }
 
 void Game::LockBlock()
@@ -145,7 +186,13 @@ void Game::LockBlock()
 		std::cout << "GAME OVER!" << std::endl;
 	}
 	nextBlock = GetRandomBlock();
-	grid.ClearComlpeteRows();
+	int rowsCleared = grid.ClearComlpeteRows();
+	if (rowsCleared > 0)
+	{
+		UpdateScore(rowsCleared, 0);
+		PlaySound(clearSound);
+	}
+	
 }
 
 bool Game::BlockFits()
@@ -167,5 +214,26 @@ void Game::RestartGame()
 	blocks = GetAllBlocks();
 	currentBlock = GetRandomBlock();
 	nextBlock = GetRandomBlock();
+	score = 0;
+}
+
+void Game::UpdateScore(int linesCleared, int moveDownPoints)
+{
+	switch (linesCleared)
+	{
+	case 1:
+		score += 100;
+		break;
+	case 2:
+		score += 300;
+		break;
+	case 3:
+		score += 500;
+		break;
+	default:
+		break;
+	}
+
+	score += moveDownPoints;
 }
 
