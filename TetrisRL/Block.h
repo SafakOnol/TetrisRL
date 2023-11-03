@@ -11,6 +11,8 @@ public:
 	void Render();
 	void Move(int rows, int columns);
 	std::vector<Position> GetCellPositions();
+	void Rotate();
+	void UndoRotation();
 
 
 	int id;

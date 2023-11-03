@@ -10,6 +10,7 @@ public:
 	void Print();
 	void Render();
 	bool IsCellOutOfBounds(int row, int column);
+	bool IsCellEmpty(int row, int column);
 	int grid[20][10];
 
 private:
