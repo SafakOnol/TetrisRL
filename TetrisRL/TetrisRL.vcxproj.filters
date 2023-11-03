@@ -30,7 +30,10 @@
     <ClCompile Include="Colors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tetrimino.cpp">
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Blocks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +50,7 @@
     <ClInclude Include="Colors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tetrimino.h">
+    <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
