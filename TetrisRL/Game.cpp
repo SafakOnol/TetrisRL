@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <random>
+#include <iostream>
 
 Game::Game()
 {
@@ -7,6 +8,7 @@ Game::Game()
 	blocks = GetAllBlocks();
 	currentBlock = GetRandomBlock();
 	nextBlock = GetRandomBlock();
+	gameOver = false;
 }
 
 Block Game::GetRandomBlock()
@@ -36,6 +38,11 @@ void Game::Render()
 void Game::HandleEvents()
 {
 	int keyPressed = GetKeyPressed();
+	if (gameOver && keyPressed != 0)
+	{
+		gameOver = false;
+		RestartGame();
+	}
 	switch (keyPressed)
 	{
 	case KEY_LEFT:
@@ -55,6 +62,11 @@ void Game::HandleEvents()
 
 void Game::MoveBlockLeft()
 {
+	if (gameOver)
+	{
+		return;
+	}
+
 	currentBlock.Move(0, -1);
 	if (IsBlockOutOfBounds() || BlockFits() == false)
 	{
@@ -64,6 +76,11 @@ void Game::MoveBlockLeft()
 
 void Game::MoveBlockRight()
 {
+	if (gameOver)
+	{
+		return;
+	}
+
 	currentBlock.Move(0, 1);
 	if (IsBlockOutOfBounds() || BlockFits() == false)
 	{
@@ -73,6 +90,11 @@ void Game::MoveBlockRight()
 
 void Game::MoveBlockDown()
 {
+	if (gameOver)
+	{
+		return;
+	}
+
 	currentBlock.Move(1, 0);
 	if (IsBlockOutOfBounds() || BlockFits() == false)
 	{
@@ -97,6 +119,11 @@ bool Game::IsBlockOutOfBounds()
 
 void Game::RotateBlock()
 {
+	if (gameOver)
+	{
+		return;
+	}
+
 	currentBlock.Rotate();
 	if (IsBlockOutOfBounds() || BlockFits() == false)
 	{
@@ -112,6 +139,11 @@ void Game::LockBlock()
 		grid.grid[item.row][item.column] = currentBlock.id;
 	}
 	currentBlock = nextBlock;
+	if (BlockFits() == false)
+	{
+		gameOver = true;
+		std::cout << "GAME OVER!" << std::endl;
+	}
 	nextBlock = GetRandomBlock();
 	grid.ClearComlpeteRows();
 }
@@ -127,5 +159,13 @@ bool Game::BlockFits()
 		}
 	}
 	return true;
+}
+
+void Game::RestartGame()
+{
+	grid.Initialize();
+	blocks = GetAllBlocks();
+	currentBlock = GetRandomBlock();
+	nextBlock = GetRandomBlock();
 }
 
